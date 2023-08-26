@@ -6,7 +6,6 @@ svgFileInput.addEventListener('change', (event) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      console.log(e.target.result);
       svgContainer.innerHTML = e.target.result;
     };
     reader.readAsText(file);

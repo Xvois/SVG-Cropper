@@ -37,10 +37,28 @@ function exportCroppedSVG() {
     // Construct the new viewBox string
     const viewBox = `${minX} ${minY} ${width} ${height}`;
 
-    // Log the top value of the resizable element
-    console.log(resizableTop);
+    // Clone the SVG element and set the new viewBox
+    const svgCopy = svgElement.cloneNode(true);
+    svgCopy.setAttribute("viewBox", viewBox);
 
-    // Log the original and updated viewBox values
-    console.log(`Before: ${originalViewBoxArray.join(" ")}`);
-    console.log(`After: ${viewBox}`);
+    // Serialize the SVG element to a string
+    const svgString = new XMLSerializer().serializeToString(svgCopy);
+
+    // Create a Blob containing the SVG content
+    const blob = new Blob([svgString], {type: "image/svg+xml"});
+
+    // Create a URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a downloadable link
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "svg-cropped.svg";
+    link.innerHTML = "Download SVG";
+
+    // Click the link to trigger the download
+    link.click();
+
+    // Clean up by revoking the URL
+    URL.revokeObjectURL(url);
 }

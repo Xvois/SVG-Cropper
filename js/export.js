@@ -16,7 +16,7 @@ function exportCroppedSVG() {
     const displayWidth = svgElement.clientWidth;
 
     // Helper function to get integer values from style properties
-    const getStyleValue = (element, styleProperty) => parseInt(getComputedStyle(element).getPropertyValue(styleProperty).replace("px", ""));
+    const getStyleValue = (element, styleProperty) => parseFloat(getComputedStyle(element).getPropertyValue(styleProperty).replace("px", ""));
 
     // Get dimensions and positions of the resizable element
     const resizableTop = getStyleValue(resizableElement, "top");
@@ -40,6 +40,8 @@ function exportCroppedSVG() {
     // Clone the SVG element and set the new viewBox
     const svgCopy = svgElement.cloneNode(true);
     svgCopy.setAttribute("viewBox", viewBox);
+    svgCopy.setAttribute("width", width);
+    svgCopy.setAttribute("height", height);
 
     // Serialize the SVG element to a string
     const svgString = new XMLSerializer().serializeToString(svgCopy);

@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="css/resizing.css">
-<link rel="stylesheet" href="css/svg.css">
-<link rel="stylesheet" href="css/index.css">
-<script src="js/export.js"></script>
 <head>
-    <meta charset="UTF-8">
     <title>SVG Cropping Tool</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/resizing.css">
+    <link rel="stylesheet" href="css/svg.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<h1>SVG Cropping Tool</h1>
+<div id="header">
+    <h1 class="text-3xl font-bold underline">SVG Cropping Tool</h1>
+    <p>Crop any SVG without the need to convert to another format.</p>
+</div>
+
 <input type="file" id="svg-input"/>
+
 <div id="svg-wrapper">
     <div id="svg-display"></div>
     <div id="svg-resizable" class='resizable'>
@@ -22,6 +27,8 @@
         </div>
     </div>
 </div>
+
+<script src="js/export.js"></script>
 <button onclick="exportCroppedSVG()">Export SVG</button>
 
 <script src="js/resizing.js"></script>

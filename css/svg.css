@@ -1,10 +1,12 @@
 #svg-wrapper {
     position: relative;
-    width: 750px;
-    height: 750px;
+    width: 100%;
+    height: 500px;
     border: 1px solid black;
 }
 
 #svg-display {
-    border: 1px solid blue;
+    overflow: hidden;
+    max-width: 1000px;
+    max-height: 500px;
 }

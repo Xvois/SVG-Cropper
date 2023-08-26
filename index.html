@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="css/resizing.css">
+<link rel="stylesheet" href="css/svg.css">
+<link rel="stylesheet" href="css/index.css">
+<script src="js/export.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Cropping Tool</title>
+</head>
+<body>
+<div id="svg-wrapper">
+    <div id="svg-display"></div>
+    <div id="svg-resizable" class='resizable'>
+        <div class='resizers'>
+            <div class='resizer top-left'></div>
+            <div class='resizer top-right'></div>
+            <div class='resizer bottom-left'></div>
+            <div class='resizer bottom-right'></div>
+        </div>
+    </div>
+</div>
+<h1>SVG Cropping Tool</h1>
+<input type="file" id="svg-input"/>
+<button onclick="exportCroppedSVG()">Export SVG</button>
+
+<script src="js/resizing.js"></script>
+<script src="js/svg_manager.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+#svg-wrapper {
+    width: 750px;
+    height: 750px;
+    border: 1px solid black;
+}
+
+#svg-display {
+    border: 1px solid blue;
+}

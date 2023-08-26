@@ -1,12 +1,9 @@
-/*Make resizable div by Hung Nguyen*/
+// Function to make a resizable and draggable div
 function makeResizableDiv(div) {
-    // Select the target element
     const element = document.querySelector(div);
-    // Select all resizer elements within the target element
-    const resizers = document.querySelectorAll(div + ' .resizer');
-    // Minimum size for resizing
+    const resizers = element.querySelectorAll('.resizer');
+    const svgWrapper = document.getElementById('svg-wrapper');
     const minimum_size = 20;
-    // Variables to store original dimensions and positions
     let original_width = 0;
     let original_height = 0;
     let original_x = 0;
@@ -14,84 +11,80 @@ function makeResizableDiv(div) {
     let original_mouse_x = 0;
     let original_mouse_y = 0;
 
-    // Loop through each resizer element
     for (let i = 0; i < resizers.length; i++) {
         const currentResizer = resizers[i];
 
-        // Event listener for mouse down on a resizer
         currentResizer.addEventListener('mousedown', function (e) {
             e.preventDefault();
-            // Get original dimensions and positions
-            original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
-            original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
+            original_width = parseFloat(getComputedStyle(element).getPropertyValue('width').replace('px', ''));
+            original_height = parseFloat(getComputedStyle(element).getPropertyValue('height').replace('px', ''));
 
-            // Get the offset of the "svg-wrapper" element
-            const svgWrapperRect = document.getElementById('svg-wrapper').getBoundingClientRect();
-
-            original_x = element.getBoundingClientRect().left; // Adjusted position
-            original_y = element.getBoundingClientRect().top;  // Adjusted position
-            original_mouse_x = e.pageX; // Adjusted mouse coordinate
-            original_mouse_y = e.pageY;  // Adjusted mouse coordinate
+            original_x = element.getBoundingClientRect().left;
+            original_y = element.getBoundingClientRect().top;
+            original_mouse_x = e.pageX;
+            original_mouse_y = e.pageY;
 
 
-            // Add event listeners for resizing and stopping resizing
             window.addEventListener('mousemove', resize);
             window.addEventListener('mouseup', stopResize);
         });
 
-
-        // Function for resizing the element
         function resize(e) {
+            const dx = e.pageX - original_mouse_x;
+            const dy = e.pageY - original_mouse_y;
+
+            const wrapperTop = svgWrapper.getBoundingClientRect().top;
+            const wrapperLeft = svgWrapper.getBoundingClientRect().left;
+
             if (currentResizer.classList.contains('bottom-right')) {
-                const width = original_width + (e.pageX - original_mouse_x);
-                const height = original_height + (e.pageY - original_mouse_y)
+                const width = original_width + dx;
+                const height = original_height + dy;
                 if (width > minimum_size) {
-                    element.style.width = width + 'px'
+                    element.style.width = width + 'px';
                 }
                 if (height > minimum_size) {
-                    element.style.height = height + 'px'
+                    element.style.height = height + 'px';
                 }
             } else if (currentResizer.classList.contains('bottom-left')) {
-                const height = original_height + (e.pageY - original_mouse_y)
-                const width = original_width - (e.pageX - original_mouse_x)
+                const height = original_height + dy;
+                const width = original_width - dx;
                 if (height > minimum_size) {
-                    element.style.height = height + 'px'
+                    element.style.height = height + 'px';
                 }
-                if (width > minimum_size && element.style.top <= 0) {
-                    element.style.width = width + 'px'
-                    element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                if (width > minimum_size && original_x + dx >= 0) {
+                    element.style.width = width + 'px';
+                    element.style.left = (original_x - wrapperLeft) + dx + 'px';
                 }
             } else if (currentResizer.classList.contains('top-right')) {
-                const width = original_width + (e.pageX - original_mouse_x)
-                const height = original_height - (e.pageY - original_mouse_y)
+                const width = original_width + dx;
+                const height = original_height - dy;
                 if (width > minimum_size) {
-                    element.style.width = width + 'px'
+                    element.style.width = width + 'px';
                 }
-                if (height > minimum_size) {
-                    element.style.height = height + 'px'
-                    element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                if (height > minimum_size && original_y + dy >= 0) {
+                    element.style.height = height + 'px';
+                    element.style.top = (original_y - wrapperTop) + dy + 'px';
                 }
-            } else {
-                const width = original_width - (e.pageX - original_mouse_x)
-                const height = original_height - (e.pageY - original_mouse_y)
-                if (width > minimum_size) {
-                    element.style.width = width + 'px'
-                    element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            } else if (currentResizer.classList.contains('top-left')) {
+                const width = original_width - dx;
+                const height = original_height - dy;
+                if (width > minimum_size && original_x + dx >= 0) {
+                    element.style.width = width + 'px';
+                    element.style.left = (original_x - wrapperLeft) + dx + 'px';
                 }
-                if (height > minimum_size) {
-                    element.style.height = height + 'px'
-                    element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                if (height > minimum_size && original_y + dy >= 0) {
+                    element.style.height = height + 'px';
+                    element.style.top = (original_y - wrapperTop) + dy + 'px';
                 }
             }
         }
 
-        // Function to stop resizing
         function stopResize() {
-            window.removeEventListener('mousemove', resize)
+            window.removeEventListener('mousemove', resize);
         }
     }
+
 }
 
 // Call the function with the desired selector
-makeResizableDiv('.resizable')
-
+makeResizableDiv('.resizable');

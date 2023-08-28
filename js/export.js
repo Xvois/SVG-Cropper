@@ -55,7 +55,7 @@ function exportCroppedSVG() {
     // Create a downloadable link
     const link = document.createElement("a");
     link.href = url;
-    link.download = "svg-cropped.svg";
+    link.download = `${uploadedFileName}-cropped.svg`;
     link.innerHTML = "Download SVG";
 
     // Click the link to trigger the download

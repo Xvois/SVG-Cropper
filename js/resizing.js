@@ -4,26 +4,32 @@ function makeResizableDiv(div) {
     const resizers = element.querySelectorAll('.resizer');
     const svgWrapper = document.getElementById('svg-wrapper');
     const minimum_size = 20;
+
     let original_width = 0;
     let original_height = 0;
+    let original_left = 0;
+    let original_top = 0;
     let original_x = 0;
     let original_y = 0;
     let original_mouse_x = 0;
     let original_mouse_y = 0;
 
-    for (let i = 0; i < resizers.length; i++) {
-        const currentResizer = resizers[i];
+    // Helper function to get integer values from style properties
+    const getStyleValue = (element, styleProperty) => parseFloat(getComputedStyle(element).getPropertyValue(styleProperty).replace("px", ""));
 
-        currentResizer.addEventListener('mousedown', function (e) {
+    for (const resizer of resizers) {
+        resizer.addEventListener('mousedown', function (e) {
             e.preventDefault();
-            original_width = parseFloat(getComputedStyle(element).getPropertyValue('width').replace('px', ''));
-            original_height = parseFloat(getComputedStyle(element).getPropertyValue('height').replace('px', ''));
 
+            // Store original dimensions and positions
+            original_width = element.clientWidth;
+            original_height = element.clientHeight;
             original_x = element.getBoundingClientRect().left;
             original_y = element.getBoundingClientRect().top;
+            original_left = getStyleValue(element, "left");
+            original_top = getStyleValue(element, "top");
             original_mouse_x = e.pageX;
             original_mouse_y = e.pageY;
-
 
             window.addEventListener('mousemove', resize);
             window.addEventListener('mouseup', stopResize);
@@ -36,45 +42,79 @@ function makeResizableDiv(div) {
             const wrapperTop = svgWrapper.getBoundingClientRect().top;
             const wrapperLeft = svgWrapper.getBoundingClientRect().left;
 
-            if (currentResizer.classList.contains('bottom-right')) {
+            const newLeft = original_x - wrapperLeft + dx;
+            const newTop = original_y - wrapperTop + dy;
+
+            const clampedTop = Math.max(newTop, 0);
+            const clampedLeft = Math.max(newLeft, 0);
+
+            if (resizer.classList.contains('bottom-right')) {
                 const width = original_width + dx;
                 const height = original_height + dy;
+
+                const maxWidth = getStyleValue(svgWrapper, "width") - original_left;
+                const maxHeight = getStyleValue(svgWrapper, "height") - original_top;
+
+                // Width adjustment
                 if (width > minimum_size) {
-                    element.style.width = width + 'px';
+                    element.style.width = Math.min(width, maxWidth) + 'px';
                 }
+
+                // Height adjustment
                 if (height > minimum_size) {
-                    element.style.height = height + 'px';
+                    element.style.height = Math.min(height, maxHeight) + 'px';
                 }
-            } else if (currentResizer.classList.contains('bottom-left')) {
+            } else if (resizer.classList.contains('bottom-left')) {
                 const height = original_height + dy;
                 const width = original_width - dx;
+
+                const maxWidth = original_width + original_left;
+                const maxHeight = getStyleValue(svgWrapper, "height") - original_top;
+
+                // Height adjustment
                 if (height > minimum_size) {
-                    element.style.height = height + 'px';
+                    element.style.height = Math.min(height, maxHeight) + 'px';
                 }
-                if (width > minimum_size && original_x + dx >= 0) {
-                    element.style.width = width + 'px';
-                    element.style.left = (original_x - wrapperLeft) + dx + 'px';
+
+                // Width adjustment
+                if (width > minimum_size && clampedLeft >= 0) {
+                    element.style.width = Math.min(width, maxWidth) + 'px';
+                    element.style.left = clampedLeft + 'px';
                 }
-            } else if (currentResizer.classList.contains('top-right')) {
+            } else if (resizer.classList.contains('top-right')) {
                 const width = original_width + dx;
                 const height = original_height - dy;
+
+                const maxWidth = getStyleValue(svgWrapper, "width") - original_left;
+
+                // Width adjustment
                 if (width > minimum_size) {
-                    element.style.width = width + 'px';
+                    element.style.width = Math.min(width, maxWidth) + 'px';
                 }
-                if (height > minimum_size && original_y + dy >= 0) {
-                    element.style.height = height + 'px';
-                    element.style.top = (original_y - wrapperTop) + dy + 'px';
+
+                // Height adjustment
+                const maxHeight = original_height + original_top;
+                if (height > minimum_size && clampedTop >= 0) {
+                    element.style.height = Math.min(height, maxHeight) + 'px';
+                    element.style.top = clampedTop + 'px';
                 }
-            } else if (currentResizer.classList.contains('top-left')) {
+            } else if (resizer.classList.contains('top-left')) {
                 const width = original_width - dx;
                 const height = original_height - dy;
-                if (width > minimum_size && original_x + dx >= 0) {
-                    element.style.width = width + 'px';
-                    element.style.left = (original_x - wrapperLeft) + dx + 'px';
+
+                const maxWidth = original_width + original_left;
+
+                // Width adjustment
+                if (width > minimum_size && clampedLeft >= 0) {
+                    element.style.width = Math.min(width, maxWidth) + 'px';
+                    element.style.left = clampedLeft + 'px';
                 }
-                if (height > minimum_size && original_y + dy >= 0) {
-                    element.style.height = height + 'px';
-                    element.style.top = (original_y - wrapperTop) + dy + 'px';
+
+                // Height adjustment
+                const maxHeight = original_height + original_top;
+                if (height > minimum_size && clampedTop >= 0) {
+                    element.style.height = Math.min(height, maxHeight) + 'px';
+                    element.style.top = clampedTop + 'px';
                 }
             }
         }
@@ -83,7 +123,6 @@ function makeResizableDiv(div) {
             window.removeEventListener('mousemove', resize);
         }
     }
-
 }
 
 // Call the function with the desired selector

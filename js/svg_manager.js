@@ -33,14 +33,12 @@ svgFileInput.addEventListener('change', (event) => {
                     svgElement.removeAttribute('width');
                     svgElement.removeAttribute('height');
 
-                    // Set the innerHTML of the container with modified SVG
-                    svgContainer.innerHTML = tempDiv.innerHTML;
                 } else if (!viewBoxMissing && widthPresent && heightPresent) {
                     // Remove width and height attributes
                     svgElement.removeAttribute('width');
                     svgElement.removeAttribute('height');
                 }
-
+                svgElement.setAttribute("style", "max-height: 500px")
                 // Set the innerHTML of the container with modified SVG
                 svgContainer.innerHTML = tempDiv.innerHTML;
 

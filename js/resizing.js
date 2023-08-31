@@ -1,6 +1,7 @@
 // Function to make a resizable and draggable div
 function makeResizableDiv(div) {
     const element = document.querySelector(div);
+    const resizable = document.getElementById("svg-resizable");
     const resizers = element.querySelectorAll('.resizer');
     const svgWrapper = document.getElementById('svg-wrapper');
     const minimum_size = 20;
@@ -122,6 +123,34 @@ function makeResizableDiv(div) {
         function stopResize() {
             window.removeEventListener('mousemove', resize);
         }
+
+        // Function to handle resizing on window resize
+        function handleWindowResize() {
+            const wrapperTop = svgWrapper.getBoundingClientRect().top;
+            const wrapperLeft = svgWrapper.getBoundingClientRect().left;
+
+            const clampedTop = Math.max(original_y - wrapperTop, 0);
+            const clampedLeft = Math.max(original_x - wrapperLeft, 0);
+
+            const width = getStyleValue(resizable, "width");
+            const height = getStyleValue(resizable, "height");
+
+            const maxWidth = getStyleValue(svgWrapper, "width") - original_left;
+            const maxHeight = getStyleValue(svgWrapper, "height") - original_top;
+
+            // Width adjustment
+            if (width > minimum_size) {
+                element.style.width = Math.min(width, maxWidth) + 'px';
+            }
+
+            // Height adjustment
+            if (height > minimum_size) {
+                element.style.height = Math.min(height, maxHeight) + 'px';
+            }
+        }
+
+        window.addEventListener('resize', handleWindowResize);
+
     }
 }
 

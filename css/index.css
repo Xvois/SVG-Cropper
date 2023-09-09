@@ -1,55 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&display=swap');
 
 body {
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
+
+    height: 100vh;
+
     gap: 15px;
-    font-family: sans-serif;
-    margin: 0 15px;
+    font-family: "DM Sans", sans-serif;
     padding: 0;
+    margin: 0 15px;
 
     --background-colour: #F1F2F6;
     --primary-colour: #000500;
-    --secondary-colour: #6665DD;
+    --secondary-colour: grey;
 
     background: var(--background-colour);
     color: var(--primary-colour);
 }
 
-#header {
-    padding: 15px;
-    border-bottom: 1px solid grey;
+header {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--secondary-colour);
 }
 
-#header > h1 {
+header > h1 {
+    margin: 0;
+}
 
+header > p {
+    margin: 0;
+}
+
+main {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+footer {
+    padding-top: 15px;
+    border-top: 1px solid var(--secondary-colour);
 }
 
 input[type="file"] {
-  /*
-  * visuallyHidden class copied from HTML5 Boilerplate project:
-  * https://github.com/h5bp/html5-boilerplate/blob/9d6176a26ca4b70ab64a51d7abb9d3ebaa197855/dist/css/main.css#L135
-  *
-  * More: http://hugogiraudel.com/2016/10/13/css-hide-and-seek
-  */
+    /*
+    * visuallyHidden class copied from HTML5 Boilerplate project:
+    * https://github.com/h5bp/html5-boilerplate/blob/9d6176a26ca4b70ab64a51d7abb9d3ebaa197855/dist/css/main.css#L135
+    *
+    * More: http://hugogiraudel.com/2016/10/13/css-hide-and-seek
+    */
 
-  /*
-  * Hide only visually, but have it available for screen readers:
-  * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
-  *
-  * 1. For long content, line feeds are not interpreted as spaces and small width
-  *    causes content to wrap 1 word per line:
-  *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
-  */
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap; /* 1 */
-  clip-path: inset(50%);
-  border: 0;
+    /*
+    * Hide only visually, but have it available for screen readers:
+    * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+    *
+    * 1. For long content, line feeds are not interpreted as spaces and small width
+    *    causes content to wrap 1 word per line:
+    *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+    */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* 1 */
+    clip-path: inset(50%);
+    border: 0;
 }
+
 
 /* When the visually hidden child input has focus, style the parent. */
 label:focus-within {
@@ -57,18 +80,14 @@ label:focus-within {
 }
 
 .button-wrapper {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-
     padding: 15px;
 }
 
 .custom-file-upload {
     width: max-content;
 
-    font-family: sans-serif;
+    font-family: "DM Sans", sans-serif;
+
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;

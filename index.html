@@ -1,80 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SVG Cropping Tool</title>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Crop your SVG without needing to convert to another format.">
     <meta name="keywords" content="SVG, cropping, crop">
+    <title>Free SVG Cropping Tool</title>
 
-    <link rel="manifest" href="manifest.json">
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="css/resizing.css">
     <link rel="stylesheet" href="css/svg.css">
     <link rel="stylesheet" href="css/index.css">
 
+    <!-- Global Variables -->
+    <script>let uploadedFileName = "";</script>
+
+    <!-- External Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"
             integrity="sha512-KqUc2WMPF/gxte9xVjVE4TIt1LMUTidO3BrcItFg0Ro24I7pGNzgcXdnWdezNY+8T0/JEmdC79MuwYn+8UdOqw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        let uploadedFileName = '';
-    </script>
 
 </head>
 <body>
-<div id="header">
-    <h1 class="text-3xl font-bold underline">Free SVG Cropping Tool</h1>
-    <p>Crop any SVG without the need to convert to another format.</p>
-</div>
+    <header>
+        <h1>Free SVG Cropping Tool</h1>
+        <p>Crop any SVG without the need to convert to another format.</p>
+    </header>
 
-<div class="button-wrapper">
-    <label class="custom-file-upload">
-        <input aria-label="SVG Input" id="svg-input" type="file"/>
-        SVG Upload
-    </label>
-</div>
-
-<div id="svg-wrapper">
-    <div id="svg-display"></div>
-    <div id="svg-resizable" class='resizable'>
-        <div class='resizers'>
-            <div class='resizer top-left'></div>
-            <div class='resizer top-right'></div>
-            <div class='resizer bottom-left'></div>
-            <div class='resizer bottom-right'></div>
+    <main>
+        <div class="button-wrapper">
+            <label class="custom-file-upload">
+                <input aria-label="Upload SVG" id="svg-input" type="file"/>
+                Upload SVG
+            </label>
         </div>
-        <div class="overlay-grid">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
+
+        <p id="file-name" style="width: max-content"></p>
+
+        <!-- Hide SVG and export button before upload -->
+        <div id="svg-wrapper" style="display: none;">
+            <div id="svg-display"></div>
+            <div id="svg-resizable" class='resizable'>
+                <div class='resizers'>
+                    <div class='resizer top-left'></div>
+                    <div class='resizer top-right'></div>
+                    <div class='resizer bottom-left'></div>
+                    <div class='resizer bottom-right'></div>
+                </div>
+                <div class="overlay-grid">
+                    <div class="tile"></div>
+                    <div class="tile"></div>
+                    <div class="tile"></div>
+                    <div class="tile"></div>
+                    <div class="tile drag-tile">+</div>
+                    <div class="tile"></div>
+                    <div class="tile"></div>
+                    <div class="tile"></div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+        <div class="button-wrapper" style="display: none;">
+            <button onclick="exportCroppedSVG()" class="custom-download-button" aria-label="Export as SVG">Export as SVG</button>
+        </div>
+    </main>
 
-<script src="js/export.js"></script>
-<div class="button-wrapper">
-    <button onclick="exportCroppedSVG()" class="custom-download-button" aria-label="Export">Export as SVG</button>
-</div>
+    <footer>
+        <strong>Why SVGs?</strong>
+        <p>
+            Scalable Vector Graphics (SVGs) offer versatile and scalable visual elements for web applications and designs. SVGs
+            are resolution-independent, ensuring clear graphics across various devices and screen sizes. These files describe
+            images using mathematical equations, resulting in sharp edges and smooth lines. Moreover, SVGs support interactive
+            elements and animations, enhancing user experiences. Accessibility benefits are also notable, as SVGs can be easily
+            styled with CSS and manipulated using JavaScript. This format's lightweight nature contributes to faster loading
+            times and efficient rendering. In sum, SVGs stand as a powerful choice for creating dynamic and visually appealing
+            content on the web.
+        </p>
+    </footer>
 
-<h3>Why SVGs?</h3>
-<p>
-    Scalable Vector Graphics (SVGs) offer versatile and scalable visual elements for web applications and designs. SVGs
-    are resolution-independent, ensuring clear graphics across various devices and screen sizes. These files describe
-    images using mathematical equations, resulting in sharp edges and smooth lines. Moreover, SVGs support interactive
-    elements and animations, enhancing user experiences. Accessibility benefits are also notable, as SVGs can be easily
-    styled with CSS and manipulated using JavaScript. This format's lightweight nature contributes to faster loading
-    times and efficient rendering. In sum, SVGs stand as a powerful choice for creating dynamic and visually appealing
-    content on the web.
-</p>
-
-<script src="js/resizing.js"></script>
-<script src="js/svg_manager.js"></script>
-
+    <!-- Scripts -->
+    <script src="js/export.js"></script>
+    <script src="js/resizing.js"></script>
+    <script src="js/svg_manager.js"></script>
 </body>
 </html>
+
+

@@ -1,5 +1,8 @@
 const svgFileInput = document.getElementById('svg-input');
 const svgContainer = document.getElementById('svg-display');
+const svgWrapper = document.getElementById('svg-wrapper');
+const exportButton = document.querySelector('.button-wrapper button');
+const fileNameIndicator = document.getElementById('file-name');
 
 svgFileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
@@ -42,8 +45,18 @@ svgFileInput.addEventListener('change', (event) => {
                 // Set the innerHTML of the container with modified SVG
                 svgContainer.innerHTML = tempDiv.innerHTML;
 
+                fileNameIndicator.innerHTML = `Editing: ${fileName}`
+
                 // Set the uploadedFileName global variable
                 uploadedFileName = fileNameWithoutExtension;
+
+                // Show the SVG wrapper and export button
+                svgWrapper.style.display = 'grid';
+                exportButton.parentElement.style.display = 'inline-flex';
+                svgFileInput.parentElement.style.display = 'none';
+
+                // Remove padding to make symmetrical spacing
+                svgFileInput.parentElement.parentElement.style.padding = '0';
             };
             reader.readAsText(file);
         } else {

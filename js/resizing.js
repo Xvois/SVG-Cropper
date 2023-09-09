@@ -6,6 +6,11 @@ function makeResizableDiv(div) {
     const svgWrapper = document.getElementById('svg-wrapper');
     const minimum_size = 20;
 
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+
     let original_width = 0;
     let original_height = 0;
     let original_left = 0;
@@ -17,6 +22,53 @@ function makeResizableDiv(div) {
 
     // Helper function to get integer values from style properties
     const getStyleValue = (element, styleProperty) => parseFloat(getComputedStyle(element).getPropertyValue(styleProperty).replace("px", ""));
+
+    // Function to handle dragging when the "+" tile is clicked
+    const dragTile = element.querySelector('.drag-tile');
+    dragTile.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        isDragging = true;
+
+        const rect = element.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('mouseup', stopDrag);
+    });
+
+    function drag(e) {
+        if (!isDragging) return;
+
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+
+        const wrapperTop = svgWrapper.getBoundingClientRect().top;
+        const wrapperLeft = svgWrapper.getBoundingClientRect().left;
+
+        // Calculate the maximum allowed top and left values
+        const maxTop = svgWrapper.clientHeight - element.clientHeight;
+        const maxLeft = svgWrapper.clientWidth - element.clientWidth;
+
+        // Clamp the x and y values to the specified bounds
+        const clampedX = Math.min(Math.max(x - wrapperLeft, 0), maxLeft);
+        const clampedY = Math.min(Math.max(y - wrapperTop, 0), maxTop);
+
+        element.style.left = clampedX + 'px';
+        element.style.top = clampedY + 'px';
+
+        original_x = element.getBoundingClientRect().left;
+        original_y = element.getBoundingClientRect().top;
+        original_left = getStyleValue(element, "left");
+        original_top = getStyleValue(element, "top");
+    }
+
+
+    function stopDrag() {
+        isDragging = false;
+        window.removeEventListener('mousemove', drag);
+    }
+
 
     for (const resizer of resizers) {
         resizer.addEventListener('mousedown', function (e) {

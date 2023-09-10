@@ -12,9 +12,9 @@ body {
     padding: 0;
     margin: 0 15px;
 
-    --background-colour: #F1F2F6;
-    --primary-colour: #000500;
-    --secondary-colour: grey;
+    --background-colour: 0 0% 100%;
+    --primary-colour: #161925;
+    --accent-colour: 214.3 31.8% 91.4%;
 
     background: var(--background-colour);
     color: var(--primary-colour);
@@ -22,7 +22,7 @@ body {
 
 header {
     padding: 15px 0;
-    border-bottom: 1px solid var(--secondary-colour);
+    border-bottom: 1px solid hsl(var(--accent-colour));
 }
 
 header > h1 {
@@ -43,7 +43,7 @@ main {
 
 footer {
     padding-top: 15px;
-    border-top: 1px solid var(--secondary-colour);
+    border-top: 1px solid hsl(var(--accent-colour));
 }
 
 input[type="file"] {
@@ -85,23 +85,26 @@ label:focus-within {
 
 .custom-file-upload {
     width: max-content;
+    background: none;
 
     font-family: "DM Sans", sans-serif;
-
-    border: 1px solid #ccc;
+    border: 1px solid hsl(var(--accent-colour));
+    border-radius: 20px;
     display: inline-block;
-    padding: 6px 12px;
+    padding: 10px 50px;
     cursor: pointer;
 
 }
 
 .custom-download-button {
     width: max-content;
-    font-family: sans-serif;
     font-size: 16px;
     background: none;
-    border: 1px solid #ccc;
+
+    font-family: "DM Sans", sans-serif;
+    border: 1px solid hsl(var(--accent-colour));
+    border-radius: 20px;
     display: inline-block;
-    padding: 6px 12px;
+    padding: 6px 15px;
     cursor: pointer;
 }

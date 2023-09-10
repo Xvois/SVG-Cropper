@@ -176,28 +176,50 @@ function makeResizableDiv(div) {
             window.removeEventListener('mousemove', resize);
         }
 
-        // Function to handle resizing on window resize
+// Function to handle resizing on window resize
         function handleWindowResize() {
             const wrapperTop = svgWrapper.getBoundingClientRect().top;
             const wrapperLeft = svgWrapper.getBoundingClientRect().left;
 
-            const clampedTop = Math.max(original_y - wrapperTop, 0);
-            const clampedLeft = Math.max(original_x - wrapperLeft, 0);
+            // Calculate the maximum allowed top and left values
+            const maxTop = Math.max(svgWrapper.clientHeight - element.clientHeight, 0);
+            const maxLeft = Math.max(svgWrapper.clientWidth - element.clientWidth, 0);
+
+            // Clamp the x and y values to the specified bounds
+            const clampedLeft = Math.min(Math.max(original_x - wrapperLeft, 0), maxLeft);
+            const clampedTop = Math.min(Math.max(original_y - wrapperTop, 0), maxTop);
 
             const width = getStyleValue(resizable, "width");
             const height = getStyleValue(resizable, "height");
 
-            const maxWidth = getStyleValue(svgWrapper, "width") - original_left;
-            const maxHeight = getStyleValue(svgWrapper, "height") - original_top;
+            const maxWidth = getStyleValue(svgWrapper, "width");
+            const maxHeight = getStyleValue(svgWrapper, "height");
 
-            // Width adjustment
-            if (width > minimum_size) {
-                element.style.width = Math.min(width, maxWidth) + 'px';
+            console.log(maxLeft, clampedLeft, width, maxWidth);
+
+            // Check if left or top is 0, then adjust width and height accordingly
+            if (clampedLeft === 0) {
+                // Adjust left based on clampedLeft
+                element.style.left = clampedLeft + 'px';
+                // Width adjustment
+                if (width > minimum_size) {
+                    element.style.width = Math.min(width, maxWidth) + 'px';
+                }
+            } else {
+                // Adjust left based on clampedLeft
+                element.style.left = clampedLeft + 'px';
             }
 
-            // Height adjustment
-            if (height > minimum_size) {
-                element.style.height = Math.min(height, maxHeight) + 'px';
+            if (clampedTop === 0) {
+                // Adjust top based on clampedTop
+                element.style.top = clampedTop + 'px';
+                // Height adjustment
+                if (height > minimum_size) {
+                    element.style.height = Math.min(height, maxHeight) + 'px';
+                }
+            } else {
+                // Adjust top based on clampedTop
+                element.style.top = clampedTop + 'px';
             }
         }
 
